@@ -25,6 +25,8 @@ export const RegisterPage = () => {
     isFormValid, displayNameValid, emailValid, passwordValid,
   } = useForm(formData, formValidations);
 
+  const isDisplayNameValid = displayName.length >= 1;
+
   const onSubmit = (event) => {
     event.preventDefault();
   }
