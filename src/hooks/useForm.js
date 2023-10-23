@@ -28,8 +28,13 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
 
         const formCheckValues = {};
         for (const formField of Object.key(formValidations)) {
-            
+            const [ fn, errorMessage = 'Error de validación.'] = formValidations[formField];
+
+            formCheckValues[`${ formField }Valid`] = fn( formState[formField] ) ? null : errorMessage;
+
         }
+
+        setFormState( formCheckValues );
 
     }
 
@@ -37,7 +42,8 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
         ...formState,
         formState,
         onInputChange,
-        onResetForm
+        onResetForm,
+        ...formValidation,
     }
 
 }
