@@ -15,14 +15,17 @@ export const startGoogleSignIn = () => {
         const result = await signInWithGoogle();
         if(!result.ok) return dispatch( logOut( result.errorMessage ) )
         
-        dispatch( login(result) )
+        dispatch( login(result) );
     }
 }
 
 export const startCreatingUserWithEmailPassword = ({email, password, displayName}) => {
     return async (dispatch) => {
         dispatch( checkingCredentials() );
-        const resp = await registerUserWithEmailPassword({email, password, displayName });
+        const result = await registerUserWithEmailPassword({ email, password });
+        console.log(result);
 
+        if ( !result.ok ) return dispatch( logOut( result ) );
+        dispatch( login( result ));
     }
 }
