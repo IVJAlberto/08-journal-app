@@ -1,14 +1,30 @@
 
 import { Link as RouterLink } from 'react-router-dom'
-import { Google } from "@mui/icons-material"
 import { Button, Grid, Link, TextField, Typography } from "@mui/material"
 import { AuthLayout } from '../layout/AuthLayout'
+import { useForm } from '../../hooks/useForm'
+
+
+const formData = {
+    email: 'fluke@gmail.com',
+    password: '123456',
+    displayName: 'Fluke Ario'
+}
 
 export const RegisterPage = () => {
+
+  const { displayName,email, password, onInputChange} = useForm(formData);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+  }
+
   return (
         <AuthLayout titulo='Crear cuenta'>
 
-          <form >
+          <form 
+            onSubmit={ onSubmit }
+          >
             <Grid container>
               <Grid item xs={12} sx={ {mt: 2} }>
                 <TextField 
@@ -16,6 +32,9 @@ export const RegisterPage = () => {
                   type="text" 
                   placeholder='Fluke Ario'
                   fullWidth
+                  name='displayName'
+                  value={ displayName }
+                  onChange={ onInputChange }
                 /> 
               </Grid>
 
@@ -25,6 +44,9 @@ export const RegisterPage = () => {
                   type="email" 
                   placeholder='Correo@google.com'
                   fullWidth
+                  name='email'
+                  value={ email }
+                  onChange={ onInputChange }
                 /> 
               </Grid>
 
@@ -34,12 +56,18 @@ export const RegisterPage = () => {
                   type="password" 
                   placeholder='Contrasenha'
                   fullWidth
+                  name='contrasena'
+                  value={ password }
+                  onChange={ onInputChange }
                 /> 
               </Grid>
 
               <Grid container spacing={2} sx={{ mt: 1 , mb: 2}}>
                 <Grid item xs={12}>
-                  <Button variant="contained" fullWidth>
+                  <Button 
+                    type='submit'
+                    variant="contained" 
+                    fullWidth>
                     Crear cuenta
                   </Button>
                 </Grid>
