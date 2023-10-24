@@ -25,6 +25,9 @@ export const RegisterPage = () => {
           <form 
             onSubmit={ onSubmit }
           >
+          <form 
+            onSubmit={ onSubmit }
+          >
             <Grid container>
               <Grid item xs={12} sx={ {mt: 2} }>
                 <TextField 
@@ -47,6 +50,9 @@ export const RegisterPage = () => {
                   name='email'
                   value={ email }
                   onChange={ onInputChange }
+                  name='email'
+                  value={ email }
+                  onChange={ onInputChange }
                 /> 
               </Grid>
 
@@ -59,11 +65,18 @@ export const RegisterPage = () => {
                   name='contrasena'
                   value={ password }
                   onChange={ onInputChange }
+                  name='contrasena'
+                  value={ password }
+                  onChange={ onInputChange }
                 /> 
               </Grid>
 
               <Grid container spacing={2} sx={{ mt: 1 , mb: 2}}>
                 <Grid item xs={12}>
+                  <Button 
+                    type='submit'
+                    variant="contained" 
+                    fullWidth>
                   <Button 
                     type='submit'
                     variant="contained" 
