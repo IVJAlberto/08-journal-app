@@ -7,9 +7,9 @@ import { useForm } from '../../hooks/useForm'
 
 
 const formData = {
-    email: 'fluke@gmail.com',
-    password: '123456',
-    displayName: 'Fluke Ario'
+    email: '',
+    password: '',
+    displayName: ''
 }
 
 const formValidations = {
@@ -21,6 +21,8 @@ const formValidations = {
 
 export const RegisterPage = () => {
 
+  const [formSummitted, setFormSummitted] = useState(false);
+
   const { formState, displayName,email, password, onInputChange,
           isFormValid, displayNameValid, emailValid, passwordValid, 
   } = useForm(formData, formValidations );
@@ -28,15 +30,13 @@ export const RegisterPage = () => {
   // console.log( displayNameValid );
 
   const onSubmit = (event) => {
+    setFormSummitted(true);
     event.preventDefault();
   }
 
   return (
         <AuthLayout titulo='Crear cuenta'>
-
-          <form 
-            onSubmit={ onSubmit }
-          >
+          <h1>FormValid { isFormValid ? 'Valido' : 'Incorrecto'}</h1>
           <form 
             onSubmit={ onSubmit }
           >
@@ -50,7 +50,7 @@ export const RegisterPage = () => {
                   name='displayName'
                   value={ displayName }
                   onChange={ onInputChange }
-                  error={ !displayNameValid }
+                  error={ !!displayNameValid && formSummitted}
                   helperText={ displayNameValid }
                 /> 
               </Grid>
@@ -64,9 +64,8 @@ export const RegisterPage = () => {
                   name='email'
                   value={ email }
                   onChange={ onInputChange }
-                  name='email'
-                  value={ email }
-                  onChange={ onInputChange }
+                  error={ !!emailValid && formSummitted}
+                  helperText={ emailValid }
                 /> 
               </Grid>
 
@@ -79,17 +78,13 @@ export const RegisterPage = () => {
                   name="password"
                   value={ password }
                   onChange={ onInputChange }
-                  // error={ !!passwordValid && formSubmitted  }
+                  error={ !!passwordValid && formSummitted }
                   helperText={ passwordValid }
                 />
               </Grid>
 
               <Grid container spacing={2} sx={{ mt: 1 , mb: 2}}>
                 <Grid item xs={12}>
-                  <Button 
-                    type='submit'
-                    variant="contained" 
-                    fullWidth>
                   <Button 
                     type='submit'
                     variant="contained" 
