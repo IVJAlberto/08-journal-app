@@ -32,7 +32,6 @@ export const loginWithEmailPassword = async({ email, password }) => {
     try {
         const resp = await signInWithEmailAndPassword( FirebaseAuth, email, password );
         const { uid, photoURL, displayName } = resp.user;
-
         return {
             ok: true,
             uid, photoURL, displayName
