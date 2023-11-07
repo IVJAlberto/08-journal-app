@@ -27,7 +27,6 @@ export const JournalPage = () => {
       }
       
         
-
       <IconButton
         disabled= { isSaving }
         onClick={ onClickNewNote }
