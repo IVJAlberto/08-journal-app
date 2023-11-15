@@ -9,6 +9,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 import { useForm } from "../../hooks/useForm";
 import { setActiveNote, startSaveNote, startUploadingFiles } from "../../store/journal";
 import { ImageGallery } from "../components"
+import { fileDownload } from "../../helpers/fileDownload";
 
 export const NoteView = () => {
 
@@ -30,21 +31,17 @@ export const NoteView = () => {
       if( messageSaved.length > 0 ){
         Swal.fire('Nota actualizada', messageSaved, 'success');
       }
-
-    
     }, [messageSaved])
     
     
     const onSaveNote = () => {
         dispatch( startSaveNote() );
-    }
-
+    };
+    
     const onFileInputChange = ({ target }) =>{
         if(target.files ===0 ) return;
-
         dispatch( startUploadingFiles(target.files ));
-
-    }
+    };
 
     return (
         <Grid container direction='row' justifyContent='space-between' alignItems='center' sx={{ mb: 1}}>
@@ -107,7 +104,7 @@ export const NoteView = () => {
             </Grid>
 
             {/* Galería imagenes */}
-            <ImageGallery images = { note.imageUrls}/>
+            <ImageGallery images={ note.imageUrls}/>
 
         </Grid>
     )

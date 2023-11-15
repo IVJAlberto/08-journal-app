@@ -1,9 +1,11 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
-import { FirebaseDB } from "../../firebase/config";
+import { FirebaseApp, FirebaseDB } from "../../firebase/config";
 import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes, setPhotosToActiveNote, setSaving, updateNote } from "./";
 import { loadNotes } from "../../helpers/loadNotes";
 import { async } from "@firebase/util";
 import { fileUpload } from "../../helpers/fileUpdoad";
+import { fileDownload } from "../../helpers/fileDownload";
+import { getDownloadURL,ref, getStorage, uploadBytesResumable } from "firebase/storage";
 
 export const startNewNote = () => {
     return async( dispatch, getState ) => {
@@ -61,15 +63,26 @@ export const startSaveNote = () => {
 export const startUploadingFiles = ( files = []) => {
     return async( dispatch) => {
         dispatch( setSaving() );
-
+        const FirebaseStorage = getStorage(FirebaseApp);
         const photosURL = [];
-        for (const file of files) {
-            const photoURL = await fileUpload( file );
-            photosURL.push( photoURL );
-        }
-        // console.log(photosURL);
-
-        dispatch(setPhotosToActiveNote(photosURL));
+        
+        const promises = Array.from(files).map((file)=> {
+            const storageRef = ref(FirebaseStorage, `images/${file.name}`);
+            return uploadBytesResumable(storageRef, file).then((snapshot)=>{
+                return getDownloadURL(snapshot.ref);
+            });
+        })
+        console.log(promises);
+        
+        Promise.all(promises).then((promesa)=> {
+            for(let p of promesa){
+                console.log(p);
+                photosURL.push(p);
+            }
+            console.log(photosURL);
+            dispatch(setPhotosToActiveNote(photosURL));
+        })
 
     }
 }
+
