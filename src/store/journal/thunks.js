@@ -1,11 +1,12 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseApp, FirebaseDB } from "../../firebase/config";
-import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes, setPhotosToActiveNote, setSaving, updateNote } from "./";
+import { addNewEmptyNote, deleteNoteByID, savingNewNote, setActiveNote, setNotes, setPhotosToActiveNote, setSaving, updateNote } from "./";
 import { loadNotes } from "../../helpers/loadNotes";
 import { async } from "@firebase/util";
 import { fileUpload } from "../../helpers/fileUpdoad";
 import { fileDownload } from "../../helpers/fileDownload";
 import { getDownloadURL,ref, getStorage, uploadBytesResumable } from "firebase/storage";
+import { deleteNote } from "../../helpers/deleteNote";
 
 export const startNewNote = () => {
     return async( dispatch, getState ) => {
@@ -82,6 +83,19 @@ export const startUploadingFiles = ( files = []) => {
             console.log(photosURL);
             dispatch(setPhotosToActiveNote(photosURL));
         })
+
+    }
+}
+
+export const startDeletingNote = () => {
+    return async(dispatch, getState) => {
+
+        const { uid } = getState().auth;
+        const {active:note} = getState().journal;
+
+        deleteNote(uid,note.id);
+
+        dispatch(deleteNoteByID(note.id));
 
     }
 }
